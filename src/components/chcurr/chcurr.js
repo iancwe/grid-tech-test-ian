@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import CurrencyList from '../currencylist/currencylist'
+// import CurrencyConList from '../currencyconlist/currencyconlist'
+import Table from '../table/table'
 
 class chcurr extends Component {
 
@@ -9,7 +11,10 @@ class chcurr extends Component {
     this.state = {
       chosencurrency: 'USD',
       currencies: [],
-      chosenamt: ''
+      chosenamt: '',
+      months: '',
+      columnDefs: this.createColumnDefs(),
+      rowData: this.createRowData()
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -55,11 +60,29 @@ class chcurr extends Component {
     this.setState({chosenamt: e.target.value})
   }
 
+  // after entering amount and currency
   handleSubmit (e) {
     console.log(this.state.chosenamt)
     e.preventDefault()
   }
 
+  createColumnDefs () {
+    return [
+            {headerName: 'Make', field: 'make'},
+            {headerName: 'Model', field: 'model'},
+            {headerName: 'Price', field: 'price'}
+    ]
+  }
+
+  createRowData () {
+    return [
+            {make: 'Toyota', model: 'Celica', price: 35000},
+            {make: 'Ford', model: 'Mondeo', price: 32000},
+            {make: 'Porsche', model: 'Boxter', price: 72000}
+    ]
+  }
+
+  // mounting the api and dropdown list
   componentDidMount () {
     this.choose()
   }
@@ -72,8 +95,10 @@ class chcurr extends Component {
         <CurrencyList currencies={this.state.currencies} handleChoice={(e) => this.chooseCurrency(e)} />
           </label>
           <label>Amount to Convert<input type='text' placeholder='1000' value={this.state.chosenamt} onChange={this.handleChange} /></label>
+          <br />
           <button>Submit</button>
         </form>
+        <Table columnDefs={this.state.columnDefs} rowData={this.state.rowData} />
       </div>
     )
   }
