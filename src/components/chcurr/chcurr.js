@@ -12,7 +12,7 @@ class chcurr extends Component {
     this.state = {
       chosencurrency: 'USD',
       currencies: [],
-      chosenamt: '',
+      chosenamt: 0,
       months: '',
       columnDefs: this.createColumnDefs(),
       rowData: this.createRowData()
@@ -55,6 +55,18 @@ class chcurr extends Component {
     })
   }
 
+  // Handling chosen amount of money to convert
+  handleChange (e) {
+    e.preventDefault()
+    this.setState({chosenamt: e.target.value})
+  }
+
+  // after entering amount and currency
+  handleSubmit (e) {
+    console.log(this.state.chosenamt)
+    e.preventDefault()
+  }
+
   createColumnDefs () {
     return [
             {headerName: 'Currency', field: 'currency'},
@@ -68,24 +80,12 @@ class chcurr extends Component {
 
   createRowData () {
     return [
-            {currency: 'IND', amountchanged1: 'Celica', amountchanged2: 35000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
-            {currency: 'USD', amountchanged1: 'Mondeo', amountchanged2: 32000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
-            {currency: 'EUR', amountchanged1: 'Boxter', amountchanged2: 72000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
-            {currency: 'GBP', amountchanged1: 'Boxter', amountchanged2: 72000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
-            {currency: 'RMB', amountchanged1: 'Boxter', amountchanged2: 72000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000}
+            {currency: 'IND', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'USD', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'EUR', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'GBP', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'RMB', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0}
     ]
-  }
-
-  // Handling chosen amount of money to convert
-  handleChange (e) {
-    e.preventDefault()
-    this.setState({chosenamt: e.target.value})
-  }
-
-  // after entering amount and currency
-  handleSubmit (e) {
-    console.log(this.state.chosenamt)
-    e.preventDefault()
   }
 
   // mounting the api and dropdown list
