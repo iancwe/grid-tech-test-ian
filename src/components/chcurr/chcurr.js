@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import CurrencyList from '../currencylist/currencylist'
-// import CurrencyConList from '../currencyconlist/currencyconlist'
 import Table from '../table/table'
+import 'ag-grid/dist/styles/ag-grid.css'
+import 'ag-grid/dist/styles/theme-fresh.css'
 
 class chcurr extends Component {
 
@@ -54,6 +55,27 @@ class chcurr extends Component {
     })
   }
 
+  createColumnDefs () {
+    return [
+            {headerName: 'Currency', field: 'currency'},
+            {headerName: 'date', field: 'amountchanged1'},
+            {headerName: 'date', field: 'amountchanged2'},
+            {headerName: 'date', field: 'amountchanged3'},
+            {headerName: 'date', field: 'amountchanged4'},
+            {headerName: 'date', field: 'amountchanged5'}
+    ]
+  }
+
+  createRowData () {
+    return [
+            {currency: 'IND', amountchanged1: 'Celica', amountchanged2: 35000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
+            {currency: 'USD', amountchanged1: 'Mondeo', amountchanged2: 32000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
+            {currency: 'EUR', amountchanged1: 'Boxter', amountchanged2: 72000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
+            {currency: 'GBP', amountchanged1: 'Boxter', amountchanged2: 72000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000},
+            {currency: 'RMB', amountchanged1: 'Boxter', amountchanged2: 72000, amountchanged3: 35000, amountchanged4: 3000, amountchanged5: 6000}
+    ]
+  }
+
   // Handling chosen amount of money to convert
   handleChange (e) {
     e.preventDefault()
@@ -64,22 +86,6 @@ class chcurr extends Component {
   handleSubmit (e) {
     console.log(this.state.chosenamt)
     e.preventDefault()
-  }
-
-  createColumnDefs () {
-    return [
-            {headerName: 'Make', field: 'make'},
-            {headerName: 'Model', field: 'model'},
-            {headerName: 'Price', field: 'price'}
-    ]
-  }
-
-  createRowData () {
-    return [
-            {make: 'Toyota', model: 'Celica', price: 35000},
-            {make: 'Ford', model: 'Mondeo', price: 32000},
-            {make: 'Porsche', model: 'Boxter', price: 72000}
-    ]
   }
 
   // mounting the api and dropdown list

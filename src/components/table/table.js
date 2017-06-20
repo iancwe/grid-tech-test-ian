@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {AgGridReact} from 'ag-grid-react'
 
-class CurTable extends Component {
-
+export default class extends Component {
   onGridReady (params) {
     this.gridApi = params.api
     this.columnApi = params.columnApi
@@ -11,16 +10,23 @@ class CurTable extends Component {
   }
 
   render () {
+    let containerStyle = {
+      height: 155,
+      width: 500
+    }
+
     return (
-      <div>
+      <div style={containerStyle} className='ag-fresh'>
         <h1>Simple ag-Grid React Example</h1>
-        <AgGridReact columnDefs={this.props.columnDefs}
+        <AgGridReact
+                    // properties
+          columnDefs={this.props.columnDefs}
           rowData={this.props.rowData}
-          onGridReady={this.onGridReady} />
+
+                    // events
+          onGridReady={this.onGridReady}
+        />
       </div>
     )
   }
-
-}
-
-export default CurTable
+};
