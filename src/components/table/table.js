@@ -5,7 +5,6 @@ export default class extends Component {
   onGridReady (params) {
     this.gridApi = params.api
     this.columnApi = params.columnApi
-
     this.gridApi.sizeColumnsToFit()
   }
 
@@ -19,11 +18,10 @@ export default class extends Component {
       <div style={containerStyle} className='ag-fresh'>
         <h1>Conversion Table</h1>
         <AgGridReact
-                    // properties
+          // properties
           columnDefs={this.props.columnDefs}
           rowData={this.props.rowData}
-
-                    // events
+          // events
           onGridReady={this.onGridReady}
         />
       </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import CurrencyList from '../currencylist/currencylist'
-import Table from '../table/table'
+import Table from '../table/table1'
 import 'ag-grid/dist/styles/ag-grid.css'
 import 'ag-grid/dist/styles/theme-fresh.css'
 
@@ -16,6 +16,7 @@ class chcurr extends Component {
       months: '',
       columnDefs: this.createColumnDefs(),
       rowData: this.createRowData()
+
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
