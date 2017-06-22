@@ -5,7 +5,7 @@ class Table extends Component {
 
   createItem () {
     var item = {
-      currency: createUniqueRandomSymbol(),
+      // currency: createUniqueRandomSymbol(),
       amountchanged1: Math.floor(Math.random() * 100),
       amountchanged2: Math.floor(Math.random() * 100),
       amountchanged3: Math.floor(Math.random() * 100),
@@ -15,7 +15,22 @@ class Table extends Component {
     return item
   }
 
+  document.addEventListener('DOMContentLoaded', function () {
+    var eGridDiv = document.querySelector('#myGrid')
+    new agGrid.Grid(eGridDiv, gridOptions)
+    gridOptions.api.setRowData(immutableStore)
+    setGroupingEnabled(false)
+  })
+
+  componentDidMount () {
+    this.choose()
+  }
+
   render () {
+
+    var immutableStore = []
+
+    // setting container style
     let containerStyle = {
       height: 155,
       width: 500

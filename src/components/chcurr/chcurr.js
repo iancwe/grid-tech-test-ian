@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import CurrencyList from '../currencylist/currencylist'
-import Table from '../table/table1'
+import Table from '../table/table'
+import moment from 'moment'
 import 'ag-grid/dist/styles/ag-grid.css'
 import 'ag-grid/dist/styles/theme-fresh.css'
 
@@ -64,8 +65,36 @@ class chcurr extends Component {
 
   // after entering amount and currency
   handleSubmit (e) {
-    console.log(this.state.chosenamt)
+    // console.log(this.state.chosenamt)
     e.preventDefault()
+
+    // pulling data from end of the month
+    axios({
+      method: 'get',
+      url: 'https://openexchangerates.org/api/historical/2017-04-30.json?app_id=fb9303e065b64b1aa4aac8fb7b72d8d6&base=USD&symbols=ind%2Cusd%2Ceur%2Cgbp%2Csgd',
+      responseType: 'json',
+      crossDomain: true
+    })
+    .then((response) => {
+      let show = response.data
+      // console.log(show)
+      var date = moment().format('YYYY-MM')
+      console.log(date)
+      var newDate = moment(date).subtract(1, 'month').format('YYYY-MM')
+      console.log(newDate)
+      // let endDate = moment().endOf(date)
+      // moment().date(0)
+      // console.log(endDate)
+      return show
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+    // // changing the rowData
+    // this.setState({
+    //   rowData: this.createRowDataUpdate()
+    // })
   }
 
   createColumnDefs () {
@@ -86,6 +115,16 @@ class chcurr extends Component {
             {currency: 'EUR', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
             {currency: 'GBP', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
             {currency: 'RMB', amountchanged1: 0, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0}
+    ]
+  }
+
+  createRowDataUpdate () {
+    return [
+            {currency: 'IND', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'USD', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'EUR', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'GBP', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'RMB', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0}
     ]
   }
 
