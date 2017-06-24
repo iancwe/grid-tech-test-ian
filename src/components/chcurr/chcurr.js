@@ -71,21 +71,20 @@ class chcurr extends Component {
     // pulling data from end of the month
     axios({
       method: 'get',
-      url: 'https://openexchangerates.org/api/historical/2017-04-30.json?app_id=fb9303e065b64b1aa4aac8fb7b72d8d6&base=USD&symbols=ind%2Cusd%2Ceur%2Cgbp%2Csgd',
+      url: 'https://openexchangerates.org/api/historical/2017-01-31.json?app_id=fb9303e065b64b1aa4aac8fb7b72d8d6&base=USD&symbols=ind%2Cusd%2Ceur%2Cgbp%2Csgd',
       responseType: 'json',
       crossDomain: true
     })
     .then((response) => {
       let show = response.data
-      // console.log(show)
-      var date = moment().format('YYYY-MM')
+      console.log(show)
+      // current date today
+      var date = moment().format('YYYY-MM-DD')
       console.log(date)
-      var newDate = moment(date).subtract(1, 'month').format('YYYY-MM')
-      console.log(newDate)
-      // let endDate = moment().endOf(date)
-      // moment().date(0)
-      // console.log(endDate)
-      return show
+      // date of last month
+      var dateFrom = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD')
+      alert(dateFrom)
+      return dateFrom
     })
     .catch((err) => {
       console.log(err)
