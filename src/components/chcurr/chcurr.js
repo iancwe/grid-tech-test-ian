@@ -12,9 +12,14 @@ class chcurr extends Component {
     super(props)
     this.state = {
       chosencurrency: 'USD',
+      endDate: [],
       currencies: [],
       chosenamt: 0,
       months: '',
+      EURmth0: '',
+      GBPmth0: '',
+      GBPmth0: '',
+      tdDate: '',
       columnDefs: this.createColumnDefs(),
       rowData: this.createRowData()
 
@@ -50,7 +55,7 @@ class chcurr extends Component {
   // Handling the chosen currency
   chooseCurrency (e) {
     e.preventDefault()
-    console.log(e.target.value, this.state.currencies[e.target.value])
+    // console.log(e.target.value, this.state.currencies[e.target.value])
     let chosencurrency = this.state.currencies[e.target.value]
     this.setState({
       chosencurrency: chosencurrency
@@ -80,20 +85,43 @@ class chcurr extends Component {
       console.log(show)
       // current date today
       var date = moment().format('YYYY-MM-DD')
-      console.log(date)
+      // console.log(date)
+      this.setState({
+        tdDate: date
+      })
       // date of last month
-      var dateFrom = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD')
-      alert(dateFrom)
-      return dateFrom
+      for (var i = 0; i < 4; i++) {
+        this.state.endDate[i] = moment().subtract(i + 1, 'months').endOf('month').format('YYYY-MM-DD')
+        console.log(this.state.endDate)
+        // need to push all the dates into an array
+      }
+      // return dateFrom
+      this.setState({
+        // might have to move the rowdata update to the next setstate
+        rowData: this.createRowDataUpdate(),
+        columnDefs: this.createColumnDefs1()
+      })
+      // Calling api for the prev 5 months
+      axios({
+        method: 'get',
+        url: 'https://openexchangerates.org/api/historical/' + this.state.endDate[0] + '.json?app_id=fb9303e065b64b1aa4aac8fb7b72d8d6&base=USD&symbols=ind%2Cusd%2Ceur%2Cgbp%2Cind%2Crmb',
+        responseType: 'json',
+        crossDomain: true
+      })
+        .then((response) => {
+          console.log(response.data)
+          let prevMonth = response.data.rates
+          console.log(prevMonth.EUR)
+          console.log(prevMonth.GBP)
+          console.log(prevMonth.SGD)
+          this.setState({
+            EURmth0: prevMonth.EUR
+          })
+        })
     })
     .catch((err) => {
       console.log(err)
     })
-
-    // // changing the rowData
-    // this.setState({
-    //   rowData: this.createRowDataUpdate()
-    // })
   }
 
   createColumnDefs () {
@@ -117,11 +145,22 @@ class chcurr extends Component {
     ]
   }
 
+  createColumnDefs1 () {
+    return [
+            {headerName: 'Currency', field: 'currency'},
+            {headerName: this.state.tdDate, field: 'amountchanged1'},
+            {headerName: this.state.endDate[0], field: 'amountchanged2'},
+            {headerName: this.state.endDate[1], field: 'amountchanged3'},
+            {headerName: this.state.endDate[2], field: 'amountchanged4'},
+            {headerName: this.state.endDate[3], field: 'amountchanged5'}
+    ]
+  }
+
   createRowDataUpdate () {
     return [
             {currency: 'IND', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
             {currency: 'USD', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
-            {currency: 'EUR', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
+            {currency: 'EUR', amountchanged1: this.state.EURmth0 * this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
             {currency: 'GBP', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0},
             {currency: 'RMB', amountchanged1: this.state.chosenamt, amountchanged2: 0, amountchanged3: 0, amountchanged4: 0, amountchanged5: 0}
     ]
